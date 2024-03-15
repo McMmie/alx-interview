@@ -11,10 +11,9 @@ def canUnlockAll(boxes):
     documentation
     """
 
-
     n = len(boxes)
     visited = set([0])
-    unvisited = set(boxes([0]).difference(set([0]))
+    unvisited = set(boxes[0]).difference(set([0]))
 
     while len(unvisited) > 0:
         current_box = unvisited.pop()
@@ -24,4 +23,4 @@ def canUnlockAll(boxes):
             unvisited = unvisited.union(boxes[current_box])
             visited.add(current_box)
 
-    return n == (visited)
+    return n == len(visited)
