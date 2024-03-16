@@ -30,4 +30,4 @@ def pascal_triangle(n):
                     pascal_triangle[i - 2][j - 1]\
                     + pascal_triangle[i - 2][j]
 
-        return pascal_triangle
+    return pascal_triangle
