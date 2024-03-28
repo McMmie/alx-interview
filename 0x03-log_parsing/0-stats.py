@@ -10,11 +10,11 @@ from collections import defaultdict
 
 if __name__ == '__main__':
     # Initialize variables
-    filesize = 0
+    file_size, count = 0, 0
     codes = {"200", "301", "400", "401", "403", "404", "405", "500"}
-    stats =Counter() 
+    stats = {k: 0 for k in codes}
 
-    def print_stats(stats: dict, file_size: int) -> None:
+    def print_stats(stats: Counter, file_size: int) -> None:
         """
         Prints statistics based on status codes and total file size.
 
@@ -24,9 +24,9 @@ if __name__ == '__main__':
         """
 
         print("File size: {:d}".format(file_size))
-        for code, count in sorted(stats.items()):
-            if count:
-                print(f"{code}: {count}")
+        for k, v in sorted(stats.items()):
+            if v:
+                print(f"{k}: {v}")
 
     try:
 
@@ -35,14 +35,16 @@ if __name__ == '__main__':
             count += 1
             data = line.split()
                 try:
-
-                    if len(data) >= 2:
-                        status_code = [-2]
-                        if status_code in codes:
+                    status_code = data[-2]
+                        if status_code in stats:
                             stats[status_code] += 1
-                    if len(data) >= 3:
-                        file_size += int(data[-1])
 
+                except BaseException:
+                    pass
+                try:
+                    file_size += int(data[-1])
+                except BaseException:
+                    pass
                 if count % 10 == 0:
                     print_stats(stats, filesize)
 
