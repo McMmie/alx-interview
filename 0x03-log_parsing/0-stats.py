@@ -22,7 +22,7 @@ if __name__ == '__main__':
             file_size (int): Total size of the file.
         """
 
-        print("File size: {:d}".format(file_size))
+        print("File size: {:d}".format(filesize))
         for k, v in sorted(stats.items()):
             if v:
                 print(f"{k}: {v}")
@@ -41,7 +41,7 @@ if __name__ == '__main__':
             except BaseException:
                 pass
             try:
-                    file_size += int(data[-1])
+                    filesize += int(data[-1])
             except BaseException:
                     pass
 
