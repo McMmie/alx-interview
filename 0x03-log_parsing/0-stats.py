@@ -1,49 +1,53 @@
 #!/usr/bin/python3
-
+"""
+Log parsing: Reads log entries from standard input,
+parses them, and provides statistics.
+"""
 
 import sys
-import signal
 
-# Initialize variables to store metrics
-total_file_size = 0
-status_code_counts = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
-line_count = 0
 
-def handle_interrupt(signal, frame):
-    print_statistics()
-    sys.exit(0)
+if __name__ == '__main__':
+    # Initialize variables
+    filesize, count = 0, 0
+    codes = {"200", "301", "400", "401", "403", "404", "405", "500"}
+    stats = {k: 0 for k in codes}
 
-def print_statistics():
-    print("Total file size:", total_file_size)
-    for status_code in sorted(status_code_counts.keys()):
-        if status_code_counts[status_code] > 0:
-            print(f"{status_code}: {status_code_counts[status_code]}")
+    def print_stats(stats: dict, file_size: int) -> None:
+        """
+        Prints statistics based on status codes and total file size.
 
-# Register interrupt handler
-signal.signal(signal.SIGINT, handle_interrupt)
+        Args:
+            stats (dict): Dictionary containing counts of each status code.
+            file_size (int): Total size of the file.
+        """
 
-try:
-    for line in sys.stdin:
-        try:
-            parts = line.split()
-            ip_address = parts[0]
-            date = parts[3][1:]
-            status_code = int(parts[-3])
-            file_size = int(parts[-2])
-            
-            # Check if the line matches the expected format
-            if parts[5].startswith("GET") and len(parts) >= 10:
-                total_file_size += file_size
-                status_code_counts[status_code] += 1
-                line_count += 1
-            
-            # Print statistics every 10 lines
-            if line_count % 10 == 0:
-                print_statistics()
-        except (ValueError, IndexError):
-            # Skip the line if it doesn't match the expected format
-            continue
-except KeyboardInterrupt:
-    print_statistics()
-    sys.exit(0)
+        print("File size: {:d}".format(filesize))
+        for k, v in sorted(stats.items()):
+            if v:
+                print(f"{k}: {v}")
 
+    try:
+
+        # Read log entries from standard input
+        for line in sys.stdin:
+            count += 1
+            data = line.split()
+            try:
+                status_code = data[-2]
+                if status_code in stats:
+                    stats[status_code] += 1
+
+            except BaseException:
+                pass
+            try:
+                    filesize += int(data[-1])
+            except BaseException:
+                pass
+            if count % 10 == 0:
+                print_stats(stats, filesize)
+
+        print_stats(stats, filesize)
+    except KeyboardInterrupt:
+        print_stats(stats, filesize)
+        raise
