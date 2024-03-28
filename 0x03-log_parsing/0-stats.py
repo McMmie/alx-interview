@@ -28,30 +28,30 @@ if __name__ == '__main__':
             if count:
                 print(f"{code}: {count}")
 
-        try:
+    try:
 
-            # Read log entries from standard input
-            with sys.stdin as file:
-                for count, line in enumerate(file, start=1):
-                    try:
-                        # Split log entry by spaces
-                        data = line.split()
-                        # Extract status code and update statistics
-                        status_code = data[-2]
+        # Read log entries from standard input
+        with sys.stdin as file:
+            for count, line in enumerate(file, start=1):
+                try:
+                    # Split log entry by spaces
+                    data = line.split()
+                    # Extract status code and update statistics
+                    status_code = data[-2]
 
-                        if status_code in codes:
-                            stats[status_code] += 1
-                            #  Extract file size and update total file size
-                            filesize += int(data[-1])
+                    if status_code in codes:
+                        stats[status_code] += 1
+                        #  Extract file size and update total file size
+                        filesize += int(data[-1])
 
-                    except (IndexError, ValueError):
-                        # Skip malformed log entries
-                        pass
-                    # Print statistics every 10 lines
-                    if count % 10 == 0:
-                        print_stats(stats, filesize)
+                except (IndexError, ValueError):
+                    # Skip malformed log entries
+                    pass
+                # Print statistics every 10 lines
+                if count % 10 == 0:
+                    print_stats(stats, filesize)
 
-                print_stats(stats, filesize)
-            except KeyboardInterrupt:
-                print_stats(stats, filesize)
-                raise
+            print_stats(stats, filesize)
+        except KeyboardInterrupt:
+            print_stats(stats, filesize)
+            raise
