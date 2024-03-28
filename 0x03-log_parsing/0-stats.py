@@ -42,8 +42,9 @@ if __name__ == '__main__':
                 pass
             try:
                     file_size += int(data[-1])
-                except BaseException:
+            except BaseException:
                     pass
+
                 if count % 10 == 0:
                     print_stats(stats, filesize)
 
