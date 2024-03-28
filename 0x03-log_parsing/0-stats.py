@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Log parsing: Reads log entries from standard input, parses them, and provides statistics.
+Log parsing: Reads log entries from standard input,
+parses them, and provides statistics.
 """
 
 import sys
@@ -10,8 +11,8 @@ from collections import defaultdict
 if __name__ == '__main__':
     # Initialize variables
     filesize = 0
-    codes = {"200", "301", "400", "401", "403", "404", "405", "500"}  # Valid HTTP status codes
-    stats = defaultdict(int)  # Dictionary to store counts of each status code
+    codes = {"200", "301", "400", "401", "403", "404", "405", "500"}
+    stats = defaultdict(int)
 
     def print_stats(stats: dict, file_size: int) -> None:
         """
