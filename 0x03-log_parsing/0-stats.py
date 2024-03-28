@@ -12,7 +12,7 @@ if __name__ == '__main__':
     # Initialize variables
     filesize = 0
     codes = {"200", "301", "400", "401", "403", "404", "405", "500"}
-    stats = defaultdict(int)
+    stats =Counter() 
 
     def print_stats(stats: dict, file_size: int) -> None:
         """
@@ -31,23 +31,18 @@ if __name__ == '__main__':
     try:
 
         # Read log entries from standard input
-        with sys.stdin as file:
-            for count, line in enumerate(file, start=1):
+        for line in sys.stdin:
+            count += 1
+            data = line.split()
                 try:
-                    # Split log entry by spaces
-                    data = line.split()
-                    # Extract status code and update statistics
-                    status_code = data[-2]
 
-                    if status_code in codes:
-                        stats[status_code] += 1
-                        #  Extract file size and update total file size
-                        filesize += int(data[-1])
+                    if len(data) >= 2:
+                        status_code = [-2]
+                        if status_code in codes:
+                            stats[status_code] += 1
+                    if len(data) >= 3:
+                        file_size += int(data[-1])
 
-                except (IndexError, ValueError):
-                    # Skip malformed log entries
-                    pass
-                # Print statistics every 10 lines
                 if count % 10 == 0:
                     print_stats(stats, filesize)
 
