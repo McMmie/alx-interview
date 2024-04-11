@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 import sys
 
 solutions = []  # The list of possible solutions to the N queens problem
@@ -37,7 +37,8 @@ def is_attacking(pos0, pos1):
     Returns:
         bool: True if the queens are in an attacking position else False.
     """
-    return (pos0[0] == pos1[0]) or (pos0[1] == pos1[1]) or (abs(pos0[0] - pos1[0]) == abs(pos0[1] - pos1[1]))
+    return ((pos0[0] == pos1[0]) or (pos0[1] ==
+            pos1[1]) or (abs(pos0[0] - pos1[0]) == abs(pos0[1] - pos1[1])))
 
 
 def group_exists(group):
@@ -94,4 +95,3 @@ n = get_input()
 get_solutions()
 for solution in solutions:
     print(solution)
-
